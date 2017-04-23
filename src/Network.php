@@ -153,8 +153,8 @@
                         $this->_activation_rules[$layer] = new ActivationRule($rule_type);
                         break;
                     // @todo Дописать
+                    // @codeCoverageIgnoreStart
                     default:
-                        // @codeCoverageIgnoreStart
                         throw new NetworkException('Временно выключено');
                     // @codeCoverageIgnoreEnd
                 }
@@ -249,8 +249,8 @@
                         $data->activation_rule[] = $rule_type;
                         break;
                     // @todo Дописать
+                    // @codeCoverageIgnoreStart
                     default:
-                        // @codeCoverageIgnoreStart
                         throw new NetworkException('Временно выключено');
                     // @codeCoverageIgnoreEnd
                 }
@@ -284,8 +284,8 @@
                         $buf .= pack('V', $rule_type);
                         break;
                     // @todo Дописать
+                    // @codeCoverageIgnoreStart
                     default:
-                        // @codeCoverageIgnoreStart
                         throw new NetworkException('Временно выключено');
                     // @codeCoverageIgnoreEnd
                 }
