@@ -1,0 +1,23 @@
+tools:
+    php_sim: false
+    php_pdepend: true
+    php_analyzer: true
+
+build:
+    environment:
+        php:
+            version: 7.0.14
+    tests:
+        override:
+            -
+                command: 'composer test-cl'
+                coverage:
+                    file: 'test/clover.xml'
+                    format: 'clover'
+    environment:
+        redis: false
+        postgresql: false
+        mongodb: false
+
+filter:
+    excluded_paths: [vendor/*, test/*]
