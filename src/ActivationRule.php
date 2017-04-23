@@ -1,7 +1,5 @@
 <?php
 
-    declare(strict_types=1);
-
     namespace NokitaKaze\Neural;
 
     /**
@@ -50,7 +48,7 @@
          * @param ActivationRuleInterval[] $intervals
          * @param \Closure|null            $method
          */
-        function __construct(int $type, array $intervals = [], $method = null) {
+        function __construct($type, array $intervals = [], $method = null) {
             $this->_type = $type;
             $this->_intervals = $intervals;
             $this->_activation_method = $method;
@@ -64,12 +62,12 @@
         function calculate(array &$values) {
             switch ($this->_type) {
                 case self::TYPE_SINGLE_TANH:
-                    $values = array_map(function (float $value) {
+                    $values = array_map(function ($value) {
                         return tanh($value);
                     }, $values);
                     break;
                 case self::TYPE_SINGLE_SIGMOID:
-                    $values = array_map(function (float $value) {
+                    $values = array_map(function ($value) {
                         return pow(exp(-$value) + 1, -1);
                     }, $values);
                     break;
@@ -77,7 +75,8 @@
                     $values = array_map($this->_activation_method, $values);
                     break;
                 case self::TYPE_SINGLE_SELF_METHOD_OVER_FIELD:
-                    ($this->_activation_method)($values);
+                    $closure = $this->_activation_method;
+                    $closure($values);
                     break;
                 case self::TYPE_SINGLE_SOFTMAX:
                     self::soft_max($values);
@@ -104,7 +103,7 @@
             }
 
             $scale = pow($scale, -1);
-            $values = array_map(function (float $value) use ($max, $scale) {
+            $values = array_map(function ($value) use ($max, $scale) {
                 return exp($value - $max) * $scale;
             }, $values);
         }
@@ -140,12 +139,12 @@
         protected static function calculate_interval(array &$values, $interval) {
             switch ($interval->type) {
                 case self::TYPE_SINGLE_TANH:
-                    $values = array_map(function (float $value) {
+                    $values = array_map(function ($value) {
                         return tanh($value);
                     }, $values);
                     break;
                 case self::TYPE_SINGLE_SIGMOID:
-                    $values = array_map(function (float $value) {
+                    $values = array_map(function ($value) {
                         return pow(exp(-$value) + 1, -1);
                     }, $values);
                     break;
@@ -153,7 +152,8 @@
                     $values = array_map($interval->method, $values);
                     break;
                 case self::TYPE_SINGLE_SELF_METHOD_OVER_FIELD:
-                    ($interval->method)($values);
+                    $closure = $interval->method;
+                    $closure($values);
                     break;
                 case self::TYPE_SINGLE_SOFTMAX:
                     self::soft_max($values);
@@ -166,14 +166,14 @@
         /**
          * @return integer
          */
-        function get_type(): int {
+        function get_type() {
             return $this->_type;
         }
 
         /**
          * @return ActivationRuleInterval[]
          */
-        function get_intervals(): array {
+        function get_intervals() {
             return $this->_intervals;
         }
 

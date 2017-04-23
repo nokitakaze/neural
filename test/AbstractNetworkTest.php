@@ -24,7 +24,10 @@
          *
          * @dataProvider dataPHP7TypeHinting
          */
-        function testPHP7TypeHinting($method) {
+        function testPHP7TypeHinting($method = null) {
+            if (is_null($method)) {
+                return;
+            }
             $class = '\\NokitaKaze\\Neural\\'.substr(static::class, 0, -4);
             $reflection = new ReflectionMethod($class, $method);
             if ($reflection->hasReturnType()) {

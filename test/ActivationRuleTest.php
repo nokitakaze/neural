@@ -137,7 +137,7 @@
                                     $scale += exp($value - $max);
                                 }
 
-                                $output_softmax = array_map(function (float $value) use ($max, $scale) {
+                                $output_softmax = array_map(function ($value) use ($max, $scale) {
                                     return exp($value - $max) / $scale;
                                 }, $input);
 

@@ -1,7 +1,5 @@
 <?php
 
-    declare(strict_types=1);
-
     namespace NokitaKaze\Neural;
 
     class Network {
@@ -32,7 +30,7 @@
          *
          * @param string|null $filename
          */
-        function __construct(string $filename = null) {
+        function __construct($filename = null) {
             if (!is_null($filename)) {
                 $this->load_network($filename);
             }
@@ -48,7 +46,7 @@
          *
          * @throws NetworkException
          */
-        function load_network(string $filename) {
+        function load_network($filename) {
             if (!file_exists($filename)) {
                 throw new NetworkException('File "'.$filename.'" does not exist', 5);
             } elseif (!is_readable($filename)) {
@@ -73,7 +71,7 @@
          *
          * @throws NetworkException
          */
-        function load_network_from_json(string $filename) {
+        function load_network_from_json($filename) {
             if (!file_exists($filename)) {
                 throw new NetworkException('File "'.$filename.'" does not exist', 5);
             } elseif (!is_readable($filename)) {
@@ -104,7 +102,7 @@
          *
          * @throws NetworkException
          */
-        function load_network_from_bin(string $filename) {
+        function load_network_from_bin($filename) {
             if (!file_exists($filename)) {
                 throw new NetworkException('File "'.$filename.'" does not exist', 5);
             } elseif (!is_readable($filename)) {
@@ -153,8 +151,8 @@
                         $this->_activation_rules[$layer] = new ActivationRule($rule_type);
                         break;
                     // @todo Дописать
+                    // @codeCoverageIgnoreStart
                     default:
-                        // @codeCoverageIgnoreStart
                         throw new NetworkException('Временно выключено');
                     // @codeCoverageIgnoreEnd
                 }
@@ -171,7 +169,7 @@
          *
          * @return string
          */
-        protected function file_buffer_get(int $length_bytes): string {
+        protected function file_buffer_get($length_bytes) {
             $offset = $this->_file_buffer_offset;
             $this->_file_buffer_offset += $length_bytes;
 
@@ -181,14 +179,14 @@
         /**
          * @return integer
          */
-        protected function file_buffer_get_integer(): int {
+        protected function file_buffer_get_integer() {
             return unpack('V', $this->file_buffer_get(4))[1];
         }
 
         /**
          * @return double
          */
-        protected function file_buffer_get_double(): float {
+        protected function file_buffer_get_double() {
             return unpack('d', $this->file_buffer_get(8))[1];
         }
 
@@ -198,7 +196,7 @@
          *
          * @throws NetworkException
          */
-        function save_network(string $filename, $force_type = false) {
+        function save_network($filename, $force_type = false) {
             if ($force_type === false) {
                 if (mb_strtolower(mb_substr($filename, -5)) == '.json') {
                     $type = 'json';
@@ -224,7 +222,7 @@
          *
          * @throws NetworkException
          */
-        protected function save_network_to_json(string $filename) {
+        protected function save_network_to_json($filename) {
             $data = (object) [];
             $data->geometry = $this->_geometry;
             $data->weigths = $this->get_weights();
@@ -249,8 +247,8 @@
                         $data->activation_rule[] = $rule_type;
                         break;
                     // @todo Дописать
+                    // @codeCoverageIgnoreStart
                     default:
-                        // @codeCoverageIgnoreStart
                         throw new NetworkException('Временно выключено');
                     // @codeCoverageIgnoreEnd
                 }
@@ -264,7 +262,7 @@
          *
          * @throws NetworkException
          */
-        protected function save_network_to_bin(string $filename) {
+        protected function save_network_to_bin($filename) {
             $buf = 'NKNN'.pack('V', count($this->_geometry));
             foreach ($this->_geometry as &$length) {
                 $buf .= pack('V', $length);
@@ -284,8 +282,8 @@
                         $buf .= pack('V', $rule_type);
                         break;
                     // @todo Дописать
+                    // @codeCoverageIgnoreStart
                     default:
-                        // @codeCoverageIgnoreStart
                         throw new NetworkException('Временно выключено');
                     // @codeCoverageIgnoreEnd
                 }
@@ -302,7 +300,7 @@
          * @return double[]
          * @throws NetworkException
          */
-        function calculate(array $input): array {
+        function calculate(array $input) {
             if (count($input) != $this->_geometry[0]) {
                 throw new NetworkException('Malformed input for calculation', 2);
             }
@@ -325,14 +323,14 @@
         /**
          * @return double[][]
          */
-        function get_layers_after_calculate(): array {
+        function get_layers_after_calculate() {
             return $this->_values;
         }
 
         /**
          * @return integer
          */
-        function get_weights_number(): int {
+        function get_weights_number() {
             $count = 0;
             for ($i = 1; $i < count($this->_geometry); $i++) {
                 $count += ($this->_geometry[$i - 1] + 1) * $this->_geometry[$i];
@@ -346,7 +344,7 @@
          *
          * @return double[]
          */
-        function get_weights(): array {
+        function get_weights() {
             $data = [];
             for ($layerNum = 1; $layerNum < count($this->_geometry); $layerNum++) {
                 for ($i = 0; $i < $this->_geometry[$layerNum]; $i++) {
@@ -395,7 +393,7 @@
         /**
          * @return integer[]
          */
-        function get_geometry(): array {
+        function get_geometry() {
             return $this->_geometry;
         }
 
@@ -409,14 +407,14 @@
         /**
          * @return integer
          */
-        function get_layers_count(): int {
+        function get_layers_count() {
             return count($this->_geometry);
         }
 
         /**
          * @return ActivationRule[]
          */
-        function get_activation_rules(): array {
+        function get_activation_rules() {
             return $this->_activation_rules;
         }
 
