@@ -1,0 +1,42 @@
+{
+  "name": "nokitakaze/neural",
+  "description": "Pure environment PHP CMS",
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "Nikita Vetrov",
+      "email": "admin@kanaria.ru",
+      "homepage": "http://kanaria.ru/",
+      "role": "Project lead"
+    }
+  ],
+  "support": {
+    "source": "https://github.com/nokitakaze/neural"
+  },
+  "keywords": [
+    "neural network"
+  ],
+  "minimum-stability": "beta",
+  "require": {
+    "php": ">=7.0.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "5.5"
+  },
+  "scripts": {
+    "test-cl": [
+      "vendor/bin/phpunit test --coverage-clover test/clover.xml --configuration test/phpunit.xml"
+    ],
+    "tests": [
+      "vendor/bin/phpunit test --coverage-clover test/clover.xml --configuration test/phpunit.xml --coverage-html test/html-report"
+    ]
+  },
+  "autoload": {
+    "psr-4" : {
+      "NokitaKaze\\Neural\\" : "src/"
+    }
+  },
+  "config": {
+    "process-timeout": 900
+  }
+}
