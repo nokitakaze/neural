@@ -141,8 +141,9 @@
             $this->set_weights($weights);
 
             // Читаем rules
-            $this->_activation_rules = array_fill(0, count($this->_geometry), null);
-            for ($layer = 1; $layer < count($this->_geometry); $layer++) {
+            $geometry_count = count($this->_geometry);
+            $this->_activation_rules = array_fill(0, $geometry_count, null);
+            for ($layer = 1; $layer < $geometry_count; $layer++) {
                 $rule_type = $this->file_buffer_get_integer();
                 switch ($rule_type) {
                     case ActivationRule::TYPE_SINGLE_TANH:
@@ -272,7 +273,8 @@
                 $buf .= pack('d', $weight);
             }
             unset($length, $weight, $weights);
-            for ($layer = 1; $layer < count($this->_geometry); $layer++) {
+            $geometry_count = count($this->_geometry);
+            for ($layer = 1; $layer < $geometry_count; $layer++) {
                 $rule = $this->_activation_rules[$layer];
                 $rule_type = $rule->get_type();
                 switch ($rule_type) {
@@ -307,7 +309,8 @@
             $this->_values = $this->_biases;
             $this->_values[0] = $input;
 
-            for ($layer = 1; $layer < count($this->_geometry); $layer++) {
+            $geometry_count = count($this->_geometry);
+            for ($layer = 1; $layer < $geometry_count; $layer++) {
                 for ($i = 0; $i < $this->_geometry[$layer]; $i++) {
                     for ($j = 0; $j < $this->_geometry[$layer - 1]; $j++) {
                         $this->_values[$layer][$i] += $this->_values[$layer - 1][$j] * $this->_weights[$layer][$i][$j];
@@ -332,7 +335,8 @@
          */
         function get_weights_number() {
             $count = 0;
-            for ($i = 1; $i < count($this->_geometry); $i++) {
+            $geometry_count = count($this->_geometry);
+            for ($i = 1; $i < $geometry_count; $i++) {
                 $count += ($this->_geometry[$i - 1] + 1) * $this->_geometry[$i];
             }
 
@@ -346,7 +350,8 @@
          */
         function get_weights() {
             $data = [];
-            for ($layerNum = 1; $layerNum < count($this->_geometry); $layerNum++) {
+            $geometry_count = count($this->_geometry);
+            for ($layerNum = 1; $layerNum < $geometry_count; $layerNum++) {
                 for ($i = 0; $i < $this->_geometry[$layerNum]; $i++) {
                     for ($j = 0; $j < $this->_geometry[$layerNum - 1]; $j++) {
                         $data[] = $this->_weights[$layerNum][$i][$j];
@@ -375,7 +380,8 @@
             $k = 0;
             $this->_weights = [null];
             $this->_biases = [null];
-            for ($layerNum = 1; $layerNum < count($this->_geometry); $layerNum++) {
+            $geometry_count = count($this->_geometry);
+            for ($layerNum = 1; $layerNum < $geometry_count; $layerNum++) {
                 $this->_weights[$layerNum] = [];
                 $this->_biases[$layerNum] = [];
 

@@ -346,8 +346,8 @@
             $network->set_geometry([mt_rand(2, 5), mt_rand(2, 5), mt_rand(2, 5)]);
 
             $network->set_weights(range(1, $network->get_weights_number()));
-            $network->calculate(range(1,
-                $network->get_weights_number() + (mt_rand(0, 1) ? 1 : -1) * mt_rand(5, 10)));
+            $max = max(6, $network->get_weights_number() + (mt_rand(0, 1) ? 1 : -1) * mt_rand(5, 10));
+            $network->calculate(range(1, $max));
         }
 
         /**

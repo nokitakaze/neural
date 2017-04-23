@@ -186,8 +186,8 @@
          * @param array[] $full_input
          *
          * @dataProvider dataCalculateSingle
-         * @covers \NokitaKaze\Neural\ActivationRule::get_activation_method
-         * @covers \NokitaKaze\Neural\ActivationRule::get_type
+         * @covers       \NokitaKaze\Neural\ActivationRule::get_activation_method
+         * @covers       \NokitaKaze\Neural\ActivationRule::get_type
          */
         function testCalculateSingle($full_input) {
             /**
